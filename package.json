@@ -17,14 +17,7 @@
       "mode": "view"
     }
   ],
-  "preferences": [
-    {
-      "name": "coinMarketCapApiKey",
-      "type": "textfield",
-      "title": "Coin Market Cap API Key",
-      "description": "Get your API key from https://www.coingecko.com/api/documentations/v3#/authentication",
-      "required": true
-    }, {
+  "preferences": [{
       "name": "currency",
       "type": "dropdown",
       "title": "Prefered currency",
