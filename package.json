@@ -1,0 +1,70 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "crypto",
+  "title": "Crypto",
+  "description": "",
+  "icon": "command-icon.png",
+  "author": "dimitri_kouvdis",
+  "categories": [
+    "Finance"
+  ],
+  "license": "MIT",
+  "commands": [
+    {
+      "name": "index",
+      "title": "Crypto Viewer",
+      "description": "",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "coinMarketCapApiKey",
+      "type": "textfield",
+      "title": "Coin Market Cap API Key",
+      "description": "Get your API key from https://www.coingecko.com/api/documentations/v3#/authentication",
+      "required": true
+    }, {
+      "name": "currency",
+      "type": "dropdown",
+      "title": "Prefered currency",
+      "description": "Select your prefered currency to display the prices in.",
+      "required": true,
+      "data": [{
+        "title": "Euros - €",
+        "value": "EUR"
+      }, {
+        "title": "US Dollars - $",
+        "value": "USD"
+      }, {
+        "title": "Pounds - £",
+        "value": "GBP"
+      }, {
+        "title": "Yen - ¥",
+        "value": "JPY"
+      }, {
+        "title": "Yuan - ¥",
+        "value": "CNY"
+      }]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^1.66.2",
+    "@raycast/utils": "^1.12.0"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^1.0.6",
+    "@types/node": "20.8.10",
+    "@types/react": "18.2.27",
+    "eslint": "^8.51.0",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2"
+  },
+  "scripts": {
+    "build": "ray build -e dist",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint",
+    "publish": "npx @raycast/api@latest publish"
+  }
+}
