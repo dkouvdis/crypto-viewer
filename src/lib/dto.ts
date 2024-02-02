@@ -4,9 +4,8 @@ import { Color } from "@raycast/api";
 const convertedPrice = (price: number, currency: string) =>
   new Intl.NumberFormat("en-IN", { style: "currency", currency }).format(price);
 
-export const mapToColour = (value: string) => {
-  const number = parseFloat(value.replace("%", ""));
-  return number > 0 ? Color.Green : number < 0 ? Color.Red : Color.Yellow;
+export const mapToColour = (value: number) => {
+  return value > 0 ? Color.Green : value < 0 ? Color.Red : Color.SecondaryText;
 };
 
 export const mapListingLatest = (listing: MarkcetCapFull, currency: Preferences["currency"]): MappedListing => {
@@ -25,7 +24,7 @@ export const mapListingLatest = (listing: MarkcetCapFull, currency: Preferences[
       },
       percentChange: {
         value: rawInfo?.CHANGEPCT24HOUR ? `${rawInfo.CHANGEPCT24HOUR.toFixed(2)}%` : "N/A",
-        color: rawInfo?.CHANGEPCT24HOUR ? mapToColour(`${rawInfo.CHANGEPCT24HOUR}%`) : Color.SecondaryText,
+        color: rawInfo?.CHANGEPCT24HOUR ? mapToColour(rawInfo.CHANGEPCT24HOUR) : Color.SecondaryText,
       },
     };
   }).filter(Boolean);
