@@ -16,7 +16,7 @@ export const mapListingLatest = (listing: MarkcetCapFull, currency: Preferences[
     return {
       name: CoinInfo.FullName,
       symbol: CoinInfo.Name,
-      url: `https://www.cryptocompare.com${CoinInfo.Url}`,
+      url: `https://www.cryptocompare.com${CoinInfo.Url}/${currency}`,
       icon: `https://www.cryptocompare.com${CoinInfo.ImageUrl}`,
       price: {
         value: rawInfo?.PRICE ? convertedPrice(rawInfo.PRICE, currency) : "N/A",
