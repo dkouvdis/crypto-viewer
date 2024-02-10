@@ -13,6 +13,7 @@ type Data = {
       PRICE: number;
       CHANGEPCT24HOUR: number;
       CHANGE24HOUR: number;
+      MKTCAP: number;
     }
   >;
 };
@@ -31,9 +32,21 @@ export type MappedListing = {
   price: {
     value: string;
     color: Color;
+    raw: number;
   };
   percentChange: {
     value: string;
     color: Color;
+    raw: number;
   };
+  marketCap: number;
 }[];
+
+export enum Filter {
+  MarketCap = "MKTCAP",
+  Change24Hours = "CHANGEPCT24HOUR",
+}
+
+export type State = {
+  filter: Filter;
+};

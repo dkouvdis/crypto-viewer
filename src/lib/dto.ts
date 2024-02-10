@@ -1,4 +1,4 @@
-import { MappedListing, MarkcetCapFull } from "../types";
+import { MappedListing, MarkcetCapFull, Filter } from "../types";
 import { Color } from "@raycast/api";
 
 const convertedPrice = (price: number, currency: string) =>
@@ -8,24 +8,39 @@ export const mapToColour = (value: number) => {
   return value > 0 ? Color.Green : value < 0 ? Color.Red : Color.SecondaryText;
 };
 
-export const mapListingLatest = (listing: MarkcetCapFull, currency: Preferences["currency"]): MappedListing => {
-  return listing.Data.map((item) => {
-    const { CoinInfo, RAW } = item;
-    const rawInfo = RAW && currency in RAW ? RAW[currency] : null;
+export const mapListing = (
+  listing: MarkcetCapFull,
+  currency: Preferences["currency"],
+  filter: Filter,
+): MappedListing => {
+  return listing.Data.filter((item) => item.RAW && currency in item.RAW)
+    .map((item) => {
+      const { CoinInfo, RAW } = item;
+      const rawInfo = RAW[currency];
 
-    return {
-      name: CoinInfo.FullName,
-      symbol: CoinInfo.Name,
-      url: `https://www.cryptocompare.com${CoinInfo.Url}/${currency}`,
-      icon: `https://www.cryptocompare.com${CoinInfo.ImageUrl}`,
-      price: {
-        value: rawInfo?.PRICE ? convertedPrice(rawInfo.PRICE, currency) : "N/A",
-        color: Color.PrimaryText,
-      },
-      percentChange: {
-        value: rawInfo?.CHANGEPCT24HOUR ? `${rawInfo.CHANGEPCT24HOUR.toFixed(2)}%` : "N/A",
-        color: rawInfo?.CHANGEPCT24HOUR ? mapToColour(rawInfo.CHANGEPCT24HOUR) : Color.SecondaryText,
-      },
-    };
-  }).filter(Boolean);
+      return {
+        name: CoinInfo.FullName,
+        symbol: CoinInfo.Name,
+        url: `https://www.cryptocompare.com${CoinInfo.Url}/${currency}`,
+        icon: `https://www.cryptocompare.com${CoinInfo.ImageUrl}`,
+        price: {
+          value: convertedPrice(rawInfo.PRICE, currency),
+          color: Color.PrimaryText,
+          raw: rawInfo.PRICE,
+        },
+        percentChange: {
+          value: `${rawInfo.CHANGEPCT24HOUR.toFixed(2)}%`,
+          color: mapToColour(rawInfo.CHANGEPCT24HOUR),
+          raw: rawInfo.CHANGEPCT24HOUR,
+        },
+        marketCap: rawInfo.MKTCAP,
+      };
+    })
+    .sort((a, b) => {
+      if (filter === Filter.MarketCap) {
+        return b.marketCap - a.marketCap;
+      }
+
+      return b.percentChange.raw - a.percentChange.raw;
+    });
 };
